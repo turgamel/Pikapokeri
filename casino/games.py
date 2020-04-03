@@ -598,7 +598,7 @@ class Pikapokeri:
         elif await self.check_one_pairs(hand):
             print("10-A Pari")
             return 2, "10-A Pari"
-        return 0
+        return 0, "Häviö"
 
     @staticmethod
     def pp_embed(ctx, ph, amount, win):
