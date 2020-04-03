@@ -499,7 +499,7 @@ class Pikapokeri:
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
         win = True
-        if result == None:
+        if result == "Häviö":
             win = False
         return bet, win, ph
 
@@ -607,9 +607,9 @@ class Pikapokeri:
         embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
                         value="{}".format(", ".join(deck.fmt_hand(ph))))
         if win:
-            embed.add_field(name=_("Tulos"),value=("Hävisit :("))           
+            embed.add_field(name=_("\nTulos"),value=("Hävisit :("))           
         else:
-            embed.add_field(name=_("Tulos"),value=("{}, {}").format("Voitit", amount))
+            embed.add_field(name=_("\nTulos"),value=("{}, {}").format("Voitit", amount))
         embed.set_footer(text=footer.format(len(deck)))
         return embed
 
@@ -620,7 +620,7 @@ class Pikapokeri:
         embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
                         value="{}".format(", ".join(deck.fmt_hand(ph))))
         
-        embed.add_field(name=_("Vaihtoehdot"),
+        embed.add_field(name=_("\nVaihtoehdot"),
                         value="1:{} 2:{}".format(deck.fmt_hand(op1), deck.fmt_hand(op2)))    
         embed.set_footer(text=footer.format(len(deck)))       
         
