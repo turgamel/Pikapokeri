@@ -208,7 +208,7 @@ class GameEngine(Database):
 
     async def deposit_winnings(self, amount, player_instance, settings):
         multiplier = settings['Games'][self.game]['Multiplier']
-        if self.game == 'Allin' or self.game == 'Double':
+        if self.game == 'Allin' or self.game == 'Double' or self.game == "Pikapokeri":
             return await bank.deposit_credits(self.player, amount), "(+0)"
         initial = round(amount * multiplier)
         total, amt, msg = await self.calculate_bonus(initial, player_instance, settings)
