@@ -582,7 +582,7 @@ class Pikapokeri:
             print("Värisuora")
             return 75, "Värisuora"
         elif self.check_4_kind(hand):
-            print(""4 Samaa"")
+            print("4 Samaa")
             return 50, "4 Samaa"
         elif self.check_flush(hand):
             print("Väri")
