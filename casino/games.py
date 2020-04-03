@@ -500,7 +500,8 @@ class Pikapokeri:
             win = False
         return bet, win, ph
 
-    async def check_flush(self, hand):
+    @staticmethod
+    def check_flush(self, hand):
         suits = ["clubs", "diamonds", "spades", "hearts"]
         for suit in suits:
             test = 0
@@ -511,7 +512,8 @@ class Pikapokeri:
                         return True
         return False
 
-    async def check_one_pairs(self, hand):
+    @staticmethod
+    def check_one_pairs(self, hand):
         card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
         values = [i[1] for i in hand]
         rank_values = [card_order_dict[i] for i in values]
@@ -524,7 +526,8 @@ class Pikapokeri:
                 pairs.append(put)
         return False
 
-    async def check_3_kind(self, hand):
+    @staticmethod
+    def check_3_kind(self, hand):
         values = set()
         num = 0
         for card in hand:
@@ -536,7 +539,8 @@ class Pikapokeri:
                 values.add(card[1])
         return False
 
-    async def check_4_kind(self, hand):
+    @staticmethod
+    def check_4_kind(self, hand):
         values = set()
         num = 0
         for card in hand:
@@ -548,20 +552,22 @@ class Pikapokeri:
                 values.add(card[1])
         return False
 
-    async def check_straight(self, hand):
+    @staticmethod
+    def check_straight(self, hand):
         card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
         values = [i[1] for i in hand]
         rank_values = [card_order_dict[i] for i in values]
         value_range = max(rank_values) - min(rank_values)
-        if value_range == 4 and await self.check_one_pairs(hand) == False:
+        if value_range == 4 and self.check_one_pairs(hand) == False:
             return True
         else: 
             #check straight with low Ace
             if set(values) == set(["Ace", "2", "3", "4", "5"]):
                 return True
             return False
-
-    async def check_two_pairs(self, hand):
+    
+    @staticmethod
+    def check_two_pairs(self, hand):
         values = set()
         pair = 0
         for card in hand:
@@ -573,26 +579,27 @@ class Pikapokeri:
                 values.add(card[1])
         return False
 
+    
     async def check_hand(self, hand):
-        if await self.check_flush(hand) and await self.check_straight(hand):
+        if self.check_flush(hand) and await self.check_straight(hand):
             print("Värisuora")
             return 75, "Värisuora"
-        elif await self.check_4_kind(hand):
+        elif self.check_4_kind(hand):
             print("4 Samaa")
             return 50, "4 Samaa"
-        elif await self.check_flush(hand):
+        elif self.check_flush(hand):
             print("Väri")
             return 15, "Väri"
-        elif await self.check_straight(hand):
+        elif self.check_straight(hand):
             print("Suora")
             return 11, "Suora"
-        elif await self.check_3_kind(hand):
+        elif self.check_3_kind(hand):
             print("Kolmoset")
             return 5, "Kolmoset"
-        elif await self.check_two_pairs(hand):
+        elif self.check_two_pairs(hand):
             print("Kaksi paria")
             return 3, "Kaksi paria"
-        elif await self.check_one_pairs(hand):
+        elif self.check_one_pairs(hand):
             print("10-A Pari")
             return 2, "10-A Pari"
         return 0, "Häviö"
