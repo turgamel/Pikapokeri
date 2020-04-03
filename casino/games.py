@@ -599,20 +599,20 @@ class Pikapokeri:
 
     @staticmethod
     def pp_embed(ctx, ph, amount, win):
-        footer = _("Kortteja pakassa: {}")
+        footer = _("\nKortteja pakassa: {}")
         embed = discord.Embed(colour=0xFF0000)
         embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
                         value="{}".format(", ".join(deck.fmt_hand(ph))))
         if win:
-            embed.add_field(name=_("\nTulos"),value=("Hävisit :("))           
+            embed.add_field(name=_("\nTulos"),value=("\nHävisit :(\n"))           
         else:
-            embed.add_field(name=_("\nTulos"),value=("{}, {}").format("Voitit", amount))
+            embed.add_field(name=_("\nTulos"),value=("{}, {}").format("\nVoitit\n", amount))
         embed.set_footer(text=footer.format(len(deck)))
         return embed
 
     @staticmethod
     def pp_mid(ctx, ph,op1,op2):
-        footer = _("Kortteja pakassa: {}")
+        footer = _("\nKortteja pakassa: {}")
         embed = discord.Embed(colour=0xFF0000)
         embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
                         value="{}".format(", ".join(deck.fmt_hand(ph))))
