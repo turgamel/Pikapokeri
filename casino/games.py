@@ -465,7 +465,6 @@ class Pikapokeri:
 
     @game_engine("Pikapokeri")
     async def play(self, ctx, bet):
-        ctx.send("Pikapokeri")
         amount,win, ph = await self.play_pikapokeri(ctx, bet)
         return await self.pp_result(ctx, amount,win,ph)
         
