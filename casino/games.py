@@ -579,18 +579,25 @@ class Pikapokeri:
 
     async def check_hand(self, hand):
         if self.check_flush(hand) and self.check_straight(hand):
+            print("Värisuora")
             return 75, "Värisuora"
-        if self.check_4_kind(hand):
+        elif self.check_4_kind(hand):
+            print(""4 Samaa"")
             return 50, "4 Samaa"
-        if self.check_flush(hand):
+        elif self.check_flush(hand):
+            print("Väri")
             return 15, "Väri"
-        if self.check_straight(hand):
+        elif self.check_straight(hand):
+            print("Suora")
             return 11, "Suora"
-        if self.check_3_kind(hand):
+        elif self.check_3_kind(hand):
+            print("Kolmoset")
             return 5, "Kolmoset"
-        if self.check_two_pairs(hand):
+        elif self.check_two_pairs(hand):
+            print("Kaksi paria")
             return 3, "Kaksi paria"
-        if self.check_one_pairs(hand):
+        elif self.check_one_pairs(hand):
+            print("10-A Pari")
             return 2, "10-A Pari"
         return 0
 
