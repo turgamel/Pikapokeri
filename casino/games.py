@@ -612,7 +612,7 @@ class Pikapokeri:
         if win == False:
             embed.add_field(name=_("\nTulos"),value=("\nHävisit :(\n"), inline = False)           
         else:
-            embed.add_field(name=_("\nTulos"),value=("{}, {}").format("\nVoitit\n", amount),inline = False )
+            embed.add_field(name=_("\nTulos"),value=("{} {} kolikkoa").format("\nVoitit", amount),inline = False )
         return embed
 
     @staticmethod
