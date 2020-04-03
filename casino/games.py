@@ -471,7 +471,11 @@ class Pikapokeri:
         
     async def pp_result(self, ctx, amount,win,ph):
         embed = self.pp_embed(ctx,ph,amount,win)
-        return win, amount, embed
+        result = True
+        if win == None:
+            result = False
+         
+        return result, amount, embed
 
 
     async def play_pikapokeri(self, ctx, bet):
@@ -588,6 +592,7 @@ class Pikapokeri:
             return 3, "Kaksi paria"
         if self.check_one_pairs(hand):
             return 2, "10-A Pari"
+        return 0
 
     @staticmethod
     def pp_embed(ctx, ph, amount, win):
