@@ -478,6 +478,10 @@ class Pikapokeri:
         ph = deck.deal(num=2)
         op1 = deck.deal(num=1)
         op2 = deck.deal(num=1)
+
+        embed = self.pp_mid(ctx, ph,op1,op2)
+        await ctx.send(ctx.author.mention, embed=embed)
+
         try:
             resp = await ctx.bot.wait_for("message", timeout=35.0)
         except asyncio.TimeoutError:
@@ -596,4 +600,17 @@ class Pikapokeri:
         else:
             embed.add_field(name=_("Tulos"),value=("{}, {}").format("Voitit", amount))
         embed.set_footer(text=footer.format(len(deck)))
+        return embed
+
+    @staticmethod
+    def pp_mid(ctx, ph,op1,op2):
+        footer = _("Kortteja pakassa: {}")
+        embed = discord.Embed(colour=0xFF0000)
+        embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
+                        value="{}".format(", ".join(deck.fmt_hand(ph))))
+        
+        embed.add_field(name=_("Vaihtoehdot"),
+                        value="1:{} 2:{}".format(deck.fmt_hand(op1), deck.fmt_hand(op2)))    
+        embed.set_footer(text=footer.format(len(deck)))       
+        
         return embed
