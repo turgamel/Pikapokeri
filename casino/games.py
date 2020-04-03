@@ -507,8 +507,8 @@ class Pikapokeri:
     async def check_flush(self, hand):
         suits = ["clubs", "diamonds", "spades", "hearts"]
         for suit in suits:
+            test = 0
             for card in hand:
-                test = 0
                 if suit in card[0]:
                     test = test+1
                     if test == 5:
