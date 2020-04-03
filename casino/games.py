@@ -469,13 +469,9 @@ class Pikapokeri:
         amount,win, ph = await self.play_pikapokeri(ctx, bet)
         return await self.pp_result(ctx, amount,win,ph)
         
-
-
     async def pp_result(self, ctx, amount,win,ph):
         embed = self.pp_embed(ctx,ph,amount,win)
-        if win:
-            await bank.deposit_credits(ctx.author, amount)
-        return win, amount, embed
+        return 0, amount, embed
 
 
     async def play_pikapokeri(self, ctx, bet):

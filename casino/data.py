@@ -133,7 +133,7 @@ guild_defaults = {
             "Access": 0,
             "Cooldown": 5,
             "Min": 10,
-            "Max": 100000,
+            "Max": 250,
             "Multiplier": None,
             "Open": True
         }
