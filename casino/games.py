@@ -557,7 +557,7 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         rank_values = [card_order_dict[i] for i in values]
         value_range = max(rank_values) - min(rank_values)
-        if value_range == 4 and self.check_one_pairs(hand) == False:
+        if value_range == 4 and await self.check_one_pairs(hand) == False:
             return True
         else: 
             #check straight with low Ace
@@ -578,25 +578,25 @@ class Pikapokeri:
         return False
 
     async def check_hand(self, hand):
-        if self.check_flush(hand) and self.check_straight(hand):
+        if await self.check_flush(hand) and await self.check_straight(hand):
             print("Värisuora")
             return 75, "Värisuora"
-        elif self.check_4_kind(hand):
+        elif await self.check_4_kind(hand):
             print("4 Samaa")
             return 50, "4 Samaa"
-        elif self.check_flush(hand):
+        elif await self.check_flush(hand):
             print("Väri")
             return 15, "Väri"
-        elif self.check_straight(hand):
+        elif await self.check_straight(hand):
             print("Suora")
             return 11, "Suora"
-        elif self.check_3_kind(hand):
+        elif await self.check_3_kind(hand):
             print("Kolmoset")
             return 5, "Kolmoset"
-        elif self.check_two_pairs(hand):
+        elif await self.check_two_pairs(hand):
             print("Kaksi paria")
             return 3, "Kaksi paria"
-        elif self.check_one_pairs(hand):
+        elif await self.check_one_pairs(hand):
             print("10-A Pari")
             return 2, "10-A Pari"
         return 0
