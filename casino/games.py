@@ -465,11 +465,11 @@ class Pikapokeri:
 
     @game_engine("Pikapokeri")
     async def play(self, ctx, bet):
-        amount,win, ph = await self.play_pikapokeri(ctx, bet)
-        return await self.pp_result(ctx, amount,win,ph)
+        amount,win, ph, msg = await self.play_pikapokeri(ctx, bet)
+        return await self.pp_result(ctx, amount,win,ph,msg)
         
-    async def pp_result(self, ctx, amount,win,ph):
-        embed = self.pp_embed(ctx,ph,amount,win)
+    async def pp_result(self, ctx, amount,win,ph,msg):
+        embed = self.pp_embed(ctx,ph,amount,win,msg)
          
         return win, amount, embed
 
@@ -479,13 +479,15 @@ class Pikapokeri:
         op1 = deck.deal(num=1)
         op2 = deck.deal(num=1)
 
+        pred = MessagePredicate.lower_contained_in((_("1"), _("2")), ctx=ctx)
         embed = self.pp_mid(ctx, ph,op1,op2)
+        
         await ctx.send(ctx.author.mention, embed=embed)
-
+    
         try:
-            resp = await ctx.bot.wait_for("message", timeout=35.0)
+            resp = await ctx.bot.wait_for("message", timeout=35.0, check=pred)
         except asyncio.TimeoutError:
-            resp.content = "2"
+            print("Timeout Error")
 
         if resp.content.lower() == _("1"):
             ph = ph+op1
@@ -498,18 +500,18 @@ class Pikapokeri:
         win = True
         if result == "Häviö":
             win = False
-        return bet, win, ph
+        return bet, win, ph, result
 
     @staticmethod
     def check_flush(self, hand):
         suits = ["clubs", "diamonds", "spades", "hearts"]
         for suit in suits:
-            test = 0
+            test = 1
             for card in hand:
                 if suit in card[0]:
                     test = test+1
-                    if test == 5:
-                        return True
+                if test == 4:
+                    return True
         return False
 
     @staticmethod
@@ -528,28 +530,20 @@ class Pikapokeri:
 
     @staticmethod
     def check_3_kind(self, hand):
-        values = set()
-        num = 0
-        for card in hand:
-            if card[1] in values:
-                num = num+1
-                if num == 3:
-                    return True
-            else:
-                values.add(card[1])
+        card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
+        values = sorted([i[1] for i in hand])
+        card_values = [card_order_dict[i] for i in values]
+        if card_values[0] == card_values[1] == card_values[2]:
+            return True
         return False
 
     @staticmethod
     def check_4_kind(self, hand):
-        values = set()
-        num = 0
-        for card in hand:
-            if card[1] in values:
-                num = num+1
-                if num == 4:
-                    return True
-            else:
-                values.add(card[1])
+        card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
+        values = sorted([i[1] for i in hand])
+        card_values = [card_order_dict[i] for i in values]
+        if card_values[0] == card_values[1] == card_values[2] == card_values[3]:
+            return True
         return False
 
     @staticmethod
@@ -558,7 +552,7 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         rank_values = [card_order_dict[i] for i in values]
         value_range = max(rank_values) - min(rank_values)
-        if value_range == 4 and self.check_one_pairs(self, hand) == False:
+        if value_range == len(rank_values) and len(value_range) == len(values):
             return True
         else: 
             #check straight with low Ace
@@ -573,7 +567,7 @@ class Pikapokeri:
         for card in hand:
             if card[1] in values:
                 pair = pair+1
-                if pair > 3:
+                if pair > 1:
                     return True
             else:
                 values.add(card[1])
@@ -602,17 +596,17 @@ class Pikapokeri:
         elif self.check_one_pairs(self, hand):
             print("10-A Pari")
             return 2, "10-A Pari"
-        return 0, "Häviö"
+        return 0, "Köyhää"
 
     @staticmethod
-    def pp_embed(ctx, ph, amount, win):
+    def pp_embed(ctx, ph, amount, win, msg):
         embed = discord.Embed(colour=0xFF0000)
         embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
                         value="{}".format(", ".join(deck.fmt_hand(ph))))
         if win == False:
-            embed.add_field(name=_("\nTulos"),value=("\nHävisit :(\n"), inline = False)           
+            embed.add_field(name=_("\nTulos"),value=("\nKävi köyhää :("), inline = False)           
         else:
-            embed.add_field(name=_("\nTulos"),value=("{} {} kolikkoa").format("\nVoitit", amount),inline = False )
+            embed.add_field(name=_("\nTulos {}").format(msg),value=("{} {} kolikkoa").format("\nVoitit", amount),inline = False )
         return embed
 
     @staticmethod
