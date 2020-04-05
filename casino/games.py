@@ -470,7 +470,7 @@ class Pikapokeri:
         
     async def pp_result(self, ctx, amount,win,ph,msg):
         embed = self.pp_embed(ctx,ph,amount,win,msg)
-        result = win
+        result = not win
         print(result)
         return result, amount, embed
 
