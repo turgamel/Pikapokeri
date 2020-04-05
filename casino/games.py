@@ -526,8 +526,8 @@ class Pikapokeri:
     @staticmethod
     def check_3_kind(self, hand):
         card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
-        values = sorted([i[1] for i in hand])
-        card_values = [card_order_dict[i] for i in values]
+        values = [i[1] for i in hand]
+        card_values = sorted([card_order_dict[i] for i in values])
         if card_values[0] == card_values[1] == card_values[2]:
             return True
         return False
@@ -535,8 +535,8 @@ class Pikapokeri:
     @staticmethod
     def check_4_kind(self, hand):
         card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
-        values = sorted([i[1] for i in hand])
-        card_values = [card_order_dict[i] for i in values]
+        values = [i[1] for i in hand]
+        card_values = sorted([card_order_dict[i] for i in values])
         if card_values[0] == card_values[1] == card_values[2] == card_values[3]:
             return True
         return False
