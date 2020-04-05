@@ -516,7 +516,7 @@ class Pikapokeri:
         embed = self.pp_mid(ctx, ph, op1, op2)
 
         await ctx.send(ctx.author.mention, embed=embed)
-        
+
         try:
             resp = await ctx.bot.wait_for("message", timeout=35.0, check=pred)
         except asyncio.TimeoutError:
@@ -588,11 +588,10 @@ class Pikapokeri:
         rank_values = [card_order_dict[i] for i in values]
         pairs = list()
         for value in rank_values:
-            if value in pairs and sum(pairs) > 20:
+            if value in pairs:
                 return True
-            else:
-                put = int(value)
-                pairs.append(put)
+            elif value > 9:
+                pairs.insert(value)
         return False
 
     @staticmethod
