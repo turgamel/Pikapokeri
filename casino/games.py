@@ -470,9 +470,7 @@ class Pikapokeri:
         
     async def pp_result(self, ctx, amount,win,ph,msg):
         embed = self.pp_embed(ctx,ph,amount,win,msg)
-        result = not win
-        print(result)
-        return result, amount, embed
+        return win, amount, embed
 
 
     async def play_pikapokeri(self, ctx, bet):
@@ -499,7 +497,7 @@ class Pikapokeri:
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
         win = True
-        if result == "Häviö":
+        if result == "Köyhää":
             win = False
         return bet, win, ph, result
 
@@ -507,6 +505,13 @@ class Pikapokeri:
     def check_flush(self, hand):
         suits = sorted([i[0] for i in hand])
         if suits[0] == suits[1] == suits[2] == suits[3] == suits[4]:
+            return True
+        return False
+
+    @staticmethod
+    def check_fullhoyse(self, hand):
+        values = sorted([i[1] for i in hand])
+        if (values[0] == values[1] == values[2] and values[3] == values[4) or (values[0] == values[1] and values[2] == values[3] == values[4]):
             return True
         return False
 
@@ -571,6 +576,9 @@ class Pikapokeri:
         elif self.check_4_kind(self, hand):
             print("4 Samaa")
             return 50, "4 Samaa"
+        elif self.check_fullhoyse(self, hand):
+            print("Täyskäsi")
+            return 20, "Täyskäsi"
         elif self.check_flush(self, hand):
             print("Väri")
             return 15, "Väri"
