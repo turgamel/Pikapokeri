@@ -545,16 +545,10 @@ class Pikapokeri:
     def check_straight(self, hand):
         card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
         values = [i[1] for i in hand]
-        rank_values = [card_order_dict[i] for i in values]
-        value_range = max(rank_values) - min(rank_values)
-        if value_range == len(rank_values) and len(value_range) == len(values):
-            return True
-        else: 
-            #check straight with low Ace
-            if set(values) == set(["Ace", "2", "3", "4", "5"]):
-                return True
-            return False
-    
+        rank_set = [card_order_dict[i] for i in values]
+        rank_range = max(rank_set) - min(rank_set) + 1
+        return rank_range == len(hand) and len(rank_set) == len(hand)
+
     @staticmethod
     def check_two_pairs(self, hand):
         values = set()
