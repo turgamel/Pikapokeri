@@ -53,17 +53,21 @@ class Core:
 
     @game_engine("Allin")
     async def play_allin(self, ctx, bet, multiplier):
-        await ctx.send(_("You put all your chips into the machine and pull the lever..."))
+        await ctx.send(
+            _("You put all your chips into the machine and pull the lever...")
+        )
         await asyncio.sleep(3)
         outcome = random.randint(0, multiplier + 1)
         if outcome == 0:
             msg = "▂▃▅▇█▓▒░ [♠]  [♥]  [♦]  [♣] ░▒▓█▇▅▃▂\n"
             msg += _("          CONGRATULATIONS YOU WON\n")
             msg += _("░▒▓█▇▅▃▂ ⚅ J A C K P O T ⚅ ▂▃▅▇█▓▒░")
-            msg = box(msg, lang='py')
+            msg = box(msg, lang="py")
             bet *= multiplier
         else:
-            msg = _("Nothing happens. You stare at the machine contemplating your decision.")
+            msg = _(
+                "Nothing happens. You stare at the machine contemplating your decision."
+            )
         return outcome == 0, bet, msg
 
     @game_engine("Coin", (_("heads"), _("tails")))
@@ -74,7 +78,7 @@ class Core:
         msg = _("The coin landed on {}!").format(outcome)
         return choice.lower() in outcome, bet, msg
 
-    @game_engine("Cups", ('1', '2', '3'))
+    @game_engine("Cups", ("1", "2", "3"))
     async def play_cups(self, ctx, bet, choice):
         await ctx.send(_("The cups start shuffling along the table..."))
         await asyncio.sleep(3)
@@ -84,8 +88,12 @@ class Core:
 
     @game_engine("Dice")
     async def play_dice(self, ctx, bet):
-        await ctx.send(_("The dice strike the back of the table and begin to tumble into "
-                         "place..."))
+        await ctx.send(
+            _(
+                "The dice strike the back of the table and begin to tumble into "
+                "place..."
+            )
+        )
         await asyncio.sleep(2)
         die_one, die_two = self.roll_dice()
         outcome = die_one + die_two
@@ -93,7 +101,7 @@ class Core:
         msg = _("The dice landed on {} and {} ({}).").format(die_one, die_two, outcome)
         return outcome in (2, 7, 11, 12), bet, msg
 
-    @game_engine("Hilo", (_("low"), _("lo"), _('high'), _('hi'), _('seven'), _('7')))
+    @game_engine("Hilo", (_("low"), _("lo"), _("high"), _("hi"), _("seven"), _("7")))
     async def play_hilo(self, ctx, bet, choice):
         await ctx.send(_("The dice hit the table and slowly fall into place..."))
         await asyncio.sleep(2)
@@ -137,8 +145,10 @@ class Core:
         elif result in (2, 3, 12):
             return False, bet, msg.format(d1, d2)
 
-        await ctx.send("{}\nI'll roll the dice one more time. This time you will need exactly "
-                       "{} to win.".format(msg.format(d1, d2), d1 + d2))
+        await ctx.send(
+            "{}\nI'll roll the dice one more time. This time you will need exactly "
+            "{} to win.".format(msg.format(d1, d2), d1 + d2)
+        )
         return await self._craps_game(ctx, bet, comeout=result)
 
     @staticmethod
@@ -183,7 +193,7 @@ class Blackjack:
         await ctx.send(ctx.author.mention, embed=embed)
 
         try:
-            choice = await ctx.bot.wait_for('message', check=condition1, timeout=35.0)
+            choice = await ctx.bot.wait_for("message", check=condition1, timeout=35.0)
         except asyncio.TimeoutError:
             dh = self.dealer(dh)
             return ph, dh, amount
@@ -203,11 +213,16 @@ class Blackjack:
         try:
             await bank.withdraw_credits(ctx.author, amount)
         except ValueError:
-            await ctx.send(_("{} You can not cover the bet. Please choose "
-                             "hit or stay.").format(ctx.author.mention))
+            await ctx.send(
+                _("{} You can not cover the bet. Please choose " "hit or stay.").format(
+                    ctx.author.mention
+                )
+            )
 
             try:
-                choice2 = await ctx.bot.wait_for('message', check=condition2, timeout=35.0)
+                choice2 = await ctx.bot.wait_for(
+                    "message", check=condition2, timeout=35.0
+                )
             except asyncio.TimeoutError:
                 return ph, dh, amount
 
@@ -270,7 +285,7 @@ class Blackjack:
     def dealer(dh):
         count = deck.bj_count(dh)
         # forces hit if ace in first two cards without 21
-        if deck.hand_check(dh, 'Ace') and count != 21:
+        if deck.hand_check(dh, "Ace") and count != 21:
             deck.deal(hand=dh)
             count = deck.bj_count(dh)
 
@@ -292,11 +307,15 @@ class Blackjack:
         dealer_hand = hole if not outcome else ", ".join(deck.fmt_hand(dh))
 
         embed = discord.Embed(colour=0xFF0000)
-        embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
-                        value=hand.format(", ".join(deck.fmt_hand(ph)), count1))
-        embed.add_field(name=_("{}'s Hand").format(ctx.bot.user.name),
-                        value=hand.format(dealer_hand, count2))
-        embed.add_field(name='\u200b', value=options, inline=False)
+        embed.add_field(
+            name=_("{}'s Hand").format(ctx.author.name),
+            value=hand.format(", ".join(deck.fmt_hand(ph)), count1),
+        )
+        embed.add_field(
+            name=_("{}'s Hand").format(ctx.bot.user.name),
+            value=hand.format(dealer_hand, count2),
+        )
+        embed.add_field(name="\u200b", value=options, inline=False)
         embed.set_footer(text=footer.format(len(deck)))
         return embed
 
@@ -312,8 +331,12 @@ class War:
     async def war_game(self, ctx, bet):
         player_card, dealer_card, pc, dc = self.war_draw()
 
-        await ctx.send(_("The dealer shuffles the deck and deals 2 cards face down. One for the "
-                         "player and one for the dealer..."))
+        await ctx.send(
+            _(
+                "The dealer shuffles the deck and deals 2 cards face down. One for the "
+                "player and one for the dealer..."
+            )
+        )
         await asyncio.sleep(2)
         await ctx.send(_("**FLIP!**"))
         await asyncio.sleep(1)
@@ -325,14 +348,20 @@ class War:
                 outcome = "Loss"
             return outcome, player_card, dealer_card, bet
 
-        await ctx.send(_("The player and dealer are both showing a **{}**!\nTHIS MEANS "
-                         "WAR! You may choose to surrender and forfeit half your bet, or "
-                         "you can go to war.\nIf you go to war your bet will be doubled, "
-                         "but the multiplier is only applied to your original bet, the rest will "
-                         "be pushed.").format(deck.fmt_card(player_card)))
-        pred = MessagePredicate.lower_contained_in((_("war"), _("surrender"), _("ffs")), ctx=ctx)
+        await ctx.send(
+            _(
+                "The player and dealer are both showing a **{}**!\nTHIS MEANS "
+                "WAR! You may choose to surrender and forfeit half your bet, or "
+                "you can go to war.\nIf you go to war your bet will be doubled, "
+                "but the multiplier is only applied to your original bet, the rest will "
+                "be pushed."
+            ).format(deck.fmt_card(player_card))
+        )
+        pred = MessagePredicate.lower_contained_in(
+            (_("war"), _("surrender"), _("ffs")), ctx=ctx
+        )
         try:
-            choice = await ctx.bot.wait_for('message', check=pred, timeout=35.0)
+            choice = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
         except asyncio.TimeoutError:
             return "Surrender", player_card, dealer_card, bet
 
@@ -343,7 +372,9 @@ class War:
         else:
             player_card, dealer_card, pc, dc = self.burn_and_draw()
 
-            await ctx.send(_("The dealer burns three cards and deals two cards face down..."))
+            await ctx.send(
+                _("The dealer burns three cards and deals two cards face down...")
+            )
             await asyncio.sleep(3)
             await ctx.send(_("**FLIP!**"))
 
@@ -355,8 +386,9 @@ class War:
 
     @staticmethod
     async def war_results(outcome, player_card, dealer_card, amount):
-        msg = _("**Player Card:** {}\n**Dealer Card:** {}\n"
-                "").format(deck.fmt_card(player_card), deck.fmt_card(dealer_card))
+        msg = _("**Player Card:** {}\n**Dealer Card:** {}\n" "").format(
+            deck.fmt_card(player_card), deck.fmt_card(dealer_card)
+        )
         if outcome == "Win":
             msg += _("**Result**: Winner")
             return True, amount, msg
@@ -407,7 +439,9 @@ class Double:
             else:
                 bet *= 2
 
-            pred = MessagePredicate.lower_contained_in((_("double"), _("cash out")), ctx=ctx)
+            pred = MessagePredicate.lower_contained_in(
+                (_("double"), _("cash out")), ctx=ctx
+            )
 
             embed = self.double_embed(ctx, count, bet)
             await ctx.send(ctx.author.mention, embed=embed)
@@ -446,32 +480,32 @@ class Double:
             score = double.format(amount, count)
 
         embed = discord.Embed(colour=0xFF0000)
-        embed.add_field(name=_("{}'s Score").format(ctx.author.name),
-                        value=score)
-        embed.add_field(name='\u200b', value=options, inline=False)
+        embed.add_field(name=_("{}'s Score").format(ctx.author.name), value=score)
+        embed.add_field(name="\u200b", value=options, inline=False)
         if not outcome:
-            embed.add_field(name='\u200b', value='Remember, you can cash out at anytime.',
-                            inline=False)
-        embed.set_footer(text='Try again and test your luck!')
+            embed.add_field(
+                name="\u200b",
+                value="Remember, you can cash out at anytime.",
+                inline=False,
+            )
+        embed.set_footer(text="Try again and test your luck!")
         return embed
 
 
 class Pikapokeri:
     """Pikapokeri"""
 
-
     def __init__(self):
         super().__init__()
 
     @game_engine("Pikapokeri")
     async def play(self, ctx, bet):
-        amount,win, ph, msg = await self.play_pikapokeri(ctx, bet)
-        return await self.pp_result(ctx, amount,win,ph,msg)
-        
-    async def pp_result(self, ctx, amount,win,ph,msg):
-        embed = self.pp_embed(ctx,ph,amount,win,msg)
-        return win, amount, embed
+        amount, win, ph, msg = await self.play_pikapokeri(ctx, bet)
+        return await self.pp_result(ctx, amount, win, ph, msg)
 
+    async def pp_result(self, ctx, amount, win, ph, msg):
+        embed = self.pp_embed(ctx, ph, amount, win, msg)
+        return win, amount, embed
 
     async def play_pikapokeri(self, ctx, bet):
         ph = deck.deal(num=2)
@@ -479,20 +513,20 @@ class Pikapokeri:
         op2 = deck.deal(num=1)
 
         pred = MessagePredicate.lower_contained_in((_("1"), _("2")), ctx=ctx)
-        embed = self.pp_mid(ctx, ph,op1,op2)
-        
+        embed = self.pp_mid(ctx, ph, op1, op2)
+
         await ctx.send(ctx.author.mention, embed=embed)
-    
+
         try:
             resp = await ctx.bot.wait_for("message", timeout=35.0, check=pred)
         except asyncio.TimeoutError:
             return
 
         if resp.content.lower() == _("1"):
-            ph = ph+op1
+            ph = ph + op1
         else:
-            ph = ph+op2
-            
+            ph = ph + op2
+
         ph = ph + deck.deal(num=2)
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
@@ -511,13 +545,29 @@ class Pikapokeri:
     @staticmethod
     def check_fullhoyse(self, hand):
         values = sorted([i[1] for i in hand])
-        if (values[0] == values[1] == values[2] and values[3] == values[4) or (values[0] == values[1] and values[2] == values[3] == values[4]):
+        if (values[0] == values[1] == values[2] and values[3] == values[4]) or (
+            values[0] == values[1] and values[2] == values[3] == values[4]
+        ):
             return True
         return False
 
     @staticmethod
     def check_one_pairs(self, hand):
-        card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
+        card_order_dict = {
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Jack": 11,
+            "Queen": 12,
+            "King": 13,
+            "Ace": 14,
+        }
         values = [i[1] for i in hand]
         rank_values = [card_order_dict[i] for i in values]
         pairs = list()
@@ -531,7 +581,21 @@ class Pikapokeri:
 
     @staticmethod
     def check_3_kind(self, hand):
-        card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
+        card_order_dict = {
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Jack": 11,
+            "Queen": 12,
+            "King": 13,
+            "Ace": 14,
+        }
         values = [i[1] for i in hand]
         card_values = sorted([card_order_dict[i] for i in values])
         if card_values[0] == card_values[1] == card_values[2]:
@@ -540,7 +604,21 @@ class Pikapokeri:
 
     @staticmethod
     def check_4_kind(self, hand):
-        card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
+        card_order_dict = {
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Jack": 11,
+            "Queen": 12,
+            "King": 13,
+            "Ace": 14,
+        }
         values = [i[1] for i in hand]
         card_values = sorted([card_order_dict[i] for i in values])
         if card_values[0] == card_values[1] == card_values[2] == card_values[3]:
@@ -549,7 +627,21 @@ class Pikapokeri:
 
     @staticmethod
     def check_straight(self, hand):
-        card_order_dict = {2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10,"Jack":11, "Queen":12, "King":13, "Ace":14}
+        card_order_dict = {
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Jack": 11,
+            "Queen": 12,
+            "King": 13,
+            "Ace": 14,
+        }
         values = [i[1] for i in hand]
         rank_set = [card_order_dict[i] for i in values]
         rank_range = max(rank_set) - min(rank_set) + 1
@@ -561,14 +653,13 @@ class Pikapokeri:
         pair = 0
         for card in hand:
             if card[1] in values:
-                pair = pair+1
+                pair = pair + 1
                 if pair > 1:
                     return True
             else:
                 values.add(card[1])
         return False
 
-    
     async def check_hand(self, hand):
         if self.check_flush(self, hand) and self.check_straight(self, hand):
             print("Värisuora")
@@ -599,23 +690,34 @@ class Pikapokeri:
     @staticmethod
     def pp_embed(ctx, ph, amount, win, msg):
         embed = discord.Embed(colour=0xFF0000)
-        embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
-                        value="{}".format(", ".join(deck.fmt_hand(ph))))
+        embed.add_field(
+            name=_("{}'s Hand").format(ctx.author.name),
+            value="{}".format(", ".join(deck.fmt_hand(ph))),
+        )
         if win == False:
-            embed.add_field(name=_("\nKävi"),value=("köyhää :("), inline = False)           
+            embed.add_field(name=_("\nKävi"), value=("köyhää :("), inline=False)
         else:
-            embed.add_field(name=_("\nTulos {}").format(msg),value=("{} {} kolikkoa").format("\nVoitit", amount),inline = False )
+            embed.add_field(
+                name=_("\nTulos {}").format(msg),
+                value=("{} {} kolikkoa").format("\nVoitit", amount),
+                inline=False,
+            )
         return embed
 
     @staticmethod
-    def pp_mid(ctx, ph,op1,op2):
+    def pp_mid(ctx, ph, op1, op2):
         footer = _("\nKortteja pakassa: {}")
         embed = discord.Embed(colour=0xFF0000)
-        embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
-                        value="{}".format(", ".join(deck.fmt_hand(ph))))
-        
-        embed.add_field(name=_("\nVaihtoehdot"),
-                        value="**1** {} || **2** {}".format(deck.fmt_hand(op1), deck.fmt_hand(op2)), inline = False)    
-        embed.set_footer(text=footer.format(len(deck)))       
-        
+        embed.add_field(
+            name=_("{}'s Hand").format(ctx.author.name),
+            value="{}".format(", ".join(deck.fmt_hand(ph))),
+        )
+
+        embed.add_field(
+            name=_("\nVaihtoehdot"),
+            value="**1** {} || **2** {}".format(deck.fmt_hand(op1), deck.fmt_hand(op2)),
+            inline=False,
+        )
+        embed.set_footer(text=footer.format(len(deck)))
+
         return embed
