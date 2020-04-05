@@ -516,11 +516,11 @@ class Pikapokeri:
         embed = self.pp_mid(ctx, ph, op1, op2)
 
         await ctx.send(ctx.author.mention, embed=embed)
-
+        
         try:
             resp = await ctx.bot.wait_for("message", timeout=35.0, check=pred)
         except asyncio.TimeoutError:
-            resp = "1"
+            print("No choice")
 
         if resp.content.lower() == _("1"):
             ph = ph + op1
