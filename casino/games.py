@@ -595,12 +595,12 @@ class Pikapokeri:
 
     @staticmethod
     def pp_embed(ctx, ph, amount, win, msg):
-        embed = discord.Embed(colour=0xFF0000)
         embed.add_field(name=_("{}'s Hand").format(ctx.author.name),
                         value="{}".format(", ".join(deck.fmt_hand(ph))))
         if win == False:
-            embed.add_field(name=_("\nTulos"),value=("\nKävi köyhää :("), inline = False)           
+            embed.add_field(name=_("\nKävi"),value=("köyhää :("), inline = False)           
         else:
+            embed = discord.Embed(colour=0xFF0000)
             embed.add_field(name=_("\nTulos {}").format(msg),value=("{} {} kolikkoa").format("\nVoitit", amount),inline = False )
         return embed
 
