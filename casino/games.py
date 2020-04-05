@@ -591,7 +591,8 @@ class Pikapokeri:
             if value in pairs:
                 return True
             elif value > 9:
-                pairs.insert(value)
+                put = int(value)
+                pairs.append(put)
         return False
 
     @staticmethod
