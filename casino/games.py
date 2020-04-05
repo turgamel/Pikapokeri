@@ -544,9 +544,25 @@ class Pikapokeri:
 
     @staticmethod
     def check_fullhoyse(self, hand):
-        values = sorted([i[1] for i in hand])
-        if (values[0] == values[1] == values[2] and values[3] == values[4]) or (
-            values[0] == values[1] and values[2] == values[3] == values[4]
+        card_order_dict = {
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Jack": 11,
+            "Queen": 12,
+            "King": 13,
+            "Ace": 14,
+        }
+        values = [i[1] for i in hand]
+        rank_values = sorted([card_order_dict[i] for i in values])
+        if (rank_values[0] == rank_values[1] == rank_values[2] and rank_values[3] == rank_values[4]) or (
+            rank_values[0] == rank_values[1] and rank_values[2] == rank_values[3] == rank_values[4]
         ):
             return True
         return False
