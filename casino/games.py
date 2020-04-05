@@ -520,7 +520,7 @@ class Pikapokeri:
         try:
             resp = await ctx.bot.wait_for("message", timeout=35.0, check=pred)
         except asyncio.TimeoutError:
-            return
+            resp = "1"
 
         if resp.content.lower() == _("1"):
             ph = ph + op1
