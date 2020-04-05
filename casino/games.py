@@ -504,14 +504,9 @@ class Pikapokeri:
 
     @staticmethod
     def check_flush(self, hand):
-        suits = ["clubs", "diamonds", "spades", "hearts"]
-        for suit in suits:
-            test = 1
-            for card in hand:
-                if suit in card[0]:
-                    test = test+1
-                if test == 4:
-                    return True
+        suits = sorted([i[0] for i in hand])
+        if suits[0] == suits[1] == suits[2] == suits[3] == suits[4]:
+            return True
         return False
 
     @staticmethod
