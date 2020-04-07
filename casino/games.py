@@ -501,7 +501,7 @@ class Pikapokeri:
     @game_engine("Pikapokeri")
     async def play(self, ctx, bet):
         amount, win, ph, msg = await self.play_pikapokeri(ctx, bet)
-        count, amount = await self.tuplaa(ctx,bet)
+        count, amount = await self.tuplaa(ctx,bet, msg)
         return await self.pp_result(ctx, amount, win, ph, msg)
 
     async def pp_result(self, ctx, amount, win, ph, msg):
@@ -509,42 +509,42 @@ class Pikapokeri:
         return win, amount, embed
 
 
-    async def tuplaa(self, ctx, bet):
-            count = 0
+    async def tuplaa(self, ctx, bet, msg):
+        count = 0
 
-            while bet > 0:
-                count += 1
+        while bet > 0:
+            count += 1
 
-                pred = MessagePredicate.lower_contained_in(
-                    (_("tuplaa"), _("voitot talteen")), ctx=ctx
-                )
-                ph = deck.deal(num=1)
-                embed = self.pp_tuplaus(ctx, ph)
-                await ctx.send(ctx.author.mention, embed=embed)
-                try:
-                    resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
-                except asyncio.TimeoutError:
-                    break
+            pred = MessagePredicate.lower_contained_in(
+                (_("tuplaa"), _("voitot talteen")), ctx=ctx
+            )
+            ph = deck.deal(num=1)
+            embed = self.pp_tuplaus(ctx, msg, bet)
+            await ctx.send(ctx.author.mention, embed=embed)
+            try:
+                resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
+            except asyncio.TimeoutError:
+                break
 
-                if resp.content.lower() == _("voitot"):
-                    break
-                else:
-                    continue
-
-
-                pred = MessagePredicate.lower_contained_in(
-                    (_("1"), _("2"), _("3"), _("4")), ctx=ctx
-                )
-                embed = self.pp_tuplaa(ctx, ph)
-                await ctx.send(ctx.author.mention, embed=embed)
-                try:
-                    resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
-                except asyncio.TimeoutError:
-                    break
+            if resp.content.lower() == _("voitot"):
+                break
+            else:
+                continue
 
 
+            pred = MessagePredicate.lower_contained_in(
+                (_("1"), _("2"), _("3"), _("4")), ctx=ctx
+            )
+            embed = self.pp_tuplaa(ctx, ph)
+            await ctx.send(ctx.author.mention, embed=embed)
+            try:
+                resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
+            except asyncio.TimeoutError:
+                break
 
-            return count, bet
+
+
+        return count, bet
 
     async def play_pikapokeri(self, ctx, bet):
         ph = deck.deal(num=2)
