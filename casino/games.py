@@ -528,11 +528,11 @@ class Pikapokeri:
             if resp.content.lower() == _("2"):
                 break
             else:
-                continue
+                ph = deck.deal(num=1)
+            
             pred = MessagePredicate.lower_contained_in(
                 (_("1"), _("2"), _("3"), _("4")), ctx=ctx
             )
-            ph = deck.deal(num=1)
             embed = self.pp_tuplaa(ctx, ph)
             await ctx.send(ctx.author.mention, embed=embed)
             try:
