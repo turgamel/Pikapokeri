@@ -531,8 +531,6 @@ class Pikapokeri:
                 else:
                     continue
 
-                else:
-                    bet *= 2
 
             return count, bet
 
