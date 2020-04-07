@@ -565,9 +565,9 @@ class Pikapokeri:
             "King": 13,
             "Ace": 14,
         }
-        value1 = card1[0]
+        value1 = card1[0][1]
         rank_value = card_order_dict[value1]
-        value2 = card2[0]
+        value2 = card2[0][1]
         rank_value2 = card_order_dict[value2]
         if rank_value > rank_value2:
             return True
