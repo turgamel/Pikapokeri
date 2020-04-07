@@ -525,7 +525,7 @@ class Pikapokeri:
             except asyncio.TimeoutError:
                 break
 
-            if resp.content.lower() == _("voitot"):
+            if resp.content.lower() == _("2"):
                 break
             else:
                 continue
@@ -542,9 +542,41 @@ class Pikapokeri:
             except asyncio.TimeoutError:
                 break
 
+            ph2 = deck.deal(num=1)
 
+            if self.check_win(ph, ph2):
+                bet *=2
+            else:
+                bet = 0
 
         return count, bet
+
+    def check_win(self, card1, card2):
+        card_order_dict = {
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Jack": 11,
+            "Queen": 12,
+            "King": 13,
+            "Ace": 14,
+        }
+        value1 = card1[1]
+        rank_value = card_order_dict[value1]
+        value2 = card2[1]
+        rank_value2 = card_order_dict[value2]
+        if rank_value > rank_value2:
+            return True
+        else:
+            return False
+
+
 
     async def play_pikapokeri(self, ctx, bet):
         ph = deck.deal(num=2)
