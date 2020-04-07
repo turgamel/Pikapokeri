@@ -516,9 +516,8 @@ class Pikapokeri:
             count += 1
 
             pred = MessagePredicate.lower_contained_in(
-                (_("tuplaa"), _("voitot talteen")), ctx=ctx
+                (_("1"), _("2")), ctx=ctx
             )
-            ph = deck.deal(num=1)
             embed = self.pp_tuplaus(ctx, msg, bet)
             await ctx.send(ctx.author.mention, embed=embed)
             try:
@@ -535,6 +534,7 @@ class Pikapokeri:
             pred = MessagePredicate.lower_contained_in(
                 (_("1"), _("2"), _("3"), _("4")), ctx=ctx
             )
+            ph = deck.deal(num=1)
             embed = self.pp_tuplaa(ctx, ph)
             await ctx.send(ctx.author.mention, embed=embed)
             try:
