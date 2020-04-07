@@ -501,7 +501,8 @@ class Pikapokeri:
     @game_engine("Pikapokeri")
     async def play(self, ctx, bet):
         amount, win, ph, msg = await self.play_pikapokeri(ctx, bet)
-        count, amount = await self.tuplaa(ctx,bet, msg)
+        if amount > bet:
+            count, amount = await self.tuplaa(ctx,amount, msg)
         return await self.pp_result(ctx, amount, win, ph, msg)
 
     async def pp_result(self, ctx, amount, win, ph, msg):
@@ -514,7 +515,6 @@ class Pikapokeri:
 
         while bet > 0:
             count += 1
-
             pred = MessagePredicate.lower_contained_in(
                 (_("1"), _("2")), ctx=ctx
             )
@@ -529,8 +529,6 @@ class Pikapokeri:
                 break
             else:
                 continue
-
-
             pred = MessagePredicate.lower_contained_in(
                 (_("1"), _("2"), _("3"), _("4")), ctx=ctx
             )
