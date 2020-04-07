@@ -501,11 +501,40 @@ class Pikapokeri:
     @game_engine("Pikapokeri")
     async def play(self, ctx, bet):
         amount, win, ph, msg = await self.play_pikapokeri(ctx, bet)
+        count, amount = await self.tuplaa(ctx,bet)
         return await self.pp_result(ctx, amount, win, ph, msg)
 
     async def pp_result(self, ctx, amount, win, ph, msg):
         embed = self.pp_embed(ctx, ph, amount, win, msg)
         return win, amount, embed
+
+
+    async def tuplaa(self, ctx, bet):
+            count = 0
+
+            while bet > 0:
+                count += 1
+
+                pred = MessagePredicate.lower_contained_in(
+                    (_("Tuplaa"), _("Voitot talteen")), ctx=ctx
+                )
+
+                embed = self.pp_tuplaa(ctx, count, bet)
+                await ctx.send(ctx.author.mention, embed=embed)
+                try:
+                    resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
+                except asyncio.TimeoutError:
+                    break
+
+                if resp.content.lower() == _("voitot talteen"):
+                    break
+                else:
+                    continue
+
+                else:
+                    bet *= 2
+
+            return count, bet
 
     async def play_pikapokeri(self, ctx, bet):
         ph = deck.deal(num=2)
@@ -725,13 +754,33 @@ class Pikapokeri:
         footer = _("\nKortteja pakassa: {}")
         embed = discord.Embed(colour=0xFF0000)
         embed.add_field(
-            name=_("{}'s Hand").format(ctx.author.name),
+            name=_("{}n käsi").format(ctx.author.name),
             value="{}".format(", ".join(deck.fmt_hand(ph))),
         )
 
         embed.add_field(
             name=_("\nVaihtoehdot"),
             value="**1** {} || **2** {}".format(deck.fmt_hand(op1), deck.fmt_hand(op2)),
+            inline=False,
+        )
+        embed.set_footer(text=footer.format(len(deck)))
+
+        return embed
+
+    @staticmethod
+    def pp_tuplaa(ctx, ph, card):
+        footer = _("\nKortteja pakassa: {}")
+        embed = discord.Embed(colour=0xFF0000)
+
+        embed.add_field(
+            name=_("\nTuplaa"),
+            value="Tuplaus",
+            inline=False,
+        )
+
+        embed.add_field(
+            name=_("\nVaihtoehdot"),
+            value="{} || **1** || **2** || **3** || **4**".format(deck.fmt_hand(card)),
             inline=False,
         )
         embed.set_footer(text=footer.format(len(deck)))
