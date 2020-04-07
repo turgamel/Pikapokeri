@@ -518,8 +518,8 @@ class Pikapokeri:
                 pred = MessagePredicate.lower_contained_in(
                     (_("Tuplaa"), _("Voitot talteen")), ctx=ctx
                 )
-
-                embed = self.pp_tuplaa(ctx, count, bet)
+                ph = deck.deal(num=1)
+                embed = self.pp_tuplaa(ctx, ph)
                 await ctx.send(ctx.author.mention, embed=embed)
                 try:
                     resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
@@ -766,7 +766,7 @@ class Pikapokeri:
         return embed
 
     @staticmethod
-    def pp_tuplaa(ctx, ph, card):
+    def pp_tuplaa(ctx, card):
         footer = _("\nKortteja pakassa: {}")
         embed = discord.Embed(colour=0xFF0000)
 
