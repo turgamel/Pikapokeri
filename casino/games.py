@@ -516,9 +516,25 @@ class Pikapokeri:
                 count += 1
 
                 pred = MessagePredicate.lower_contained_in(
-                    (_("Tuplaa"), _("Voitot talteen")), ctx=ctx
+                    (_("tuplaa"), _("voitot talteen")), ctx=ctx
                 )
                 ph = deck.deal(num=1)
+                embed = self.pp_tuplaus(ctx, ph)
+                await ctx.send(ctx.author.mention, embed=embed)
+                try:
+                    resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
+                except asyncio.TimeoutError:
+                    break
+
+                if resp.content.lower() == _("voitot"):
+                    break
+                else:
+                    continue
+
+
+                pred = MessagePredicate.lower_contained_in(
+                    (_("1"), _("2"), _("3"), _("4")), ctx=ctx
+                )
                 embed = self.pp_tuplaa(ctx, ph)
                 await ctx.send(ctx.author.mention, embed=embed)
                 try:
@@ -526,10 +542,6 @@ class Pikapokeri:
                 except asyncio.TimeoutError:
                     break
 
-                if resp.content.lower() == _("voitot talteen"):
-                    break
-                else:
-                    continue
 
 
             return count, bet
@@ -765,6 +777,28 @@ class Pikapokeri:
 
         return embed
 
+
+    @staticmethod
+    def pp_tuplaus(ctx, msg,amount):
+        footer = _("\nKortteja pakassa: {}")
+        embed = discord.Embed(colour=0xFF0000)
+
+        embed.add_field(
+                name=_("\nTulos {}").format(msg),
+                value=("{} {} kolikkoa").format("\nVoitit", amount),
+                inline=False,
+            )
+
+        embed.add_field(
+            name=_("\nVaihtoehdot"),
+            value="**1** Tuplaa || **2** Voitot",
+            inline=False,
+        )
+        embed.set_footer(text=footer.format(len(deck)))
+
+        return embed
+
+
     @staticmethod
     def pp_tuplaa(ctx, card):
         footer = _("\nKortteja pakassa: {}")
@@ -778,7 +812,7 @@ class Pikapokeri:
 
         embed.add_field(
             name=_("\nVaihtoehdot"),
-            value="{} || **1** || **2** || **3** || **4**".format(deck.fmt_hand(card)),
+            value="{} | **1** | **2** | **3** | **4**".format(deck.fmt_hand(card)),
             inline=False,
         )
         embed.set_footer(text=footer.format(len(deck)))
