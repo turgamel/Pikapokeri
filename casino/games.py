@@ -542,7 +542,7 @@ class Pikapokeri:
 
             ph2 = deck.deal(num=1)
 
-            if self.check_win(ph, ph2):
+            if self.check_win(ph, ph2, ctx):
                 win = True
                 bet *=2
             else:
@@ -551,7 +551,7 @@ class Pikapokeri:
 
         return count, bet, win
 
-    def check_win(self, card1, card2):
+    def check_win(self, card1, card2, ctx):
         card_order_dict = {
             2: 2,
             3: 3,
@@ -571,6 +571,22 @@ class Pikapokeri:
         rank_value = card_order_dict[value1]
         value2 = card2[0][1]
         rank_value2 = card_order_dict[value2]
+
+        footer = _("\nKortteja pakassa: {}")
+        embed = discord.Embed(colour=0xFF0000)
+        embed.add_field(
+            name=_("\nTuplaa"),
+            value="Tuplaus",
+            inline=False,
+        )
+        embed.add_field(
+            name=_("\nTulos"),
+            value="{} | {}".format(deck.fmt_hand(card1), deck.fmt_hand(card2)),
+            inline=False,
+        )
+        embed.set_footer(text=footer.format(len(deck)))
+        ctx.send(ctx.author.mention, embed=embed)
+        return embed
         if rank_value > rank_value2:
             return True
         else:
