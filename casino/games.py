@@ -502,7 +502,7 @@ class Pikapokeri:
     async def play(self, ctx, bet):
         amount, win, ph, msg = await self.play_pikapokeri(ctx, bet)
         if amount > bet:
-            count, amount = await self.tuplaa(ctx,amount, msg)
+            count, amount, win = await self.tuplaa(ctx,amount, msg,win)
         return await self.pp_result(ctx, amount, win, ph, msg)
 
     async def pp_result(self, ctx, amount, win, ph, msg):
@@ -510,7 +510,7 @@ class Pikapokeri:
         return win, amount, embed
 
 
-    async def tuplaa(self, ctx, bet, msg):
+    async def tuplaa(self, ctx, bet, msg,win):
         count = 0
 
         while bet > 0:
@@ -543,11 +543,13 @@ class Pikapokeri:
             ph2 = deck.deal(num=1)
 
             if self.check_win(ph, ph2):
+                win = True
                 bet *=2
             else:
+                win = False
                 bet = 0
 
-        return count, bet
+        return count, bet, win
 
     def check_win(self, card1, card2):
         card_order_dict = {
