@@ -551,7 +551,7 @@ class Pikapokeri:
 
         return count, bet, win
 
-    def check_win(self, card1, card2, ctx):
+    async def check_win(self, card1, card2, ctx):
         card_order_dict = {
             2: 2,
             3: 3,
