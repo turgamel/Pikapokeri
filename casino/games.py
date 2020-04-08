@@ -646,7 +646,8 @@ class Pikapokeri:
             "Ace": 14,
         }
         values = [i[1] for i in hand]
-        rank_values = sorted([card_order_dict[i] for i in values])
+        rank_values = [card_order_dict[i] for i in values]
+        rank_values = sorted(rank_values)
         if (rank_values[0] == rank_values[1] == rank_values[2] and rank_values[3] == rank_values[4]) or (
             rank_values[0] == rank_values[1] and rank_values[2] == rank_values[3] == rank_values[4]
         ):
@@ -699,9 +700,8 @@ class Pikapokeri:
             "Ace": 14,
         }
         values = [i[1] for i in hand]
-        print(values)
         card_values = [card_order_dict[i] for i in values]
-        print(sorted(card_values))
+        card_values = sorted(card_values)
         if card_values[0] == card_values[1] == card_values[2]:
             return True
         return False
