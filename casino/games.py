@@ -724,7 +724,8 @@ class Pikapokeri:
             "Ace": 14,
         }
         values = [i[1] for i in hand]
-        card_values = sorted([card_order_dict[i] for i in values])
+        card_values = [card_order_dict[i] for i in values]
+        card_values = sorted(card_values)
         if card_values[0] == card_values[1] == card_values[2] == card_values[3]:
             return True
         return False
