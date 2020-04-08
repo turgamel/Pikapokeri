@@ -702,7 +702,7 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         card_values = [card_order_dict[i] for i in values]
         card_values = sorted(card_values)
-        if card_values[0] == card_values[1] == card_values[2]:
+        if card_values[0] == card_values[1] == card_values[2]: 
             return True
         return False
 
@@ -749,7 +749,7 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         rank_set = [card_order_dict[i] for i in values]
         rank_range = max(rank_set) - min(rank_set) + 1
-        return rank_range == len(hand) and len(rank_set) == len(hand)
+        return rank_range == len(hand) and len(rank_set) == len(hand) and not self.check_3_kind(hand) and not self.check_one_pairs(hand)
 
     @staticmethod
     def check_two_pairs(self, hand):
