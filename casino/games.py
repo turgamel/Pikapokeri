@@ -586,7 +586,7 @@ class Pikapokeri:
         )
         embed.set_footer(text=footer.format(len(deck)))
         await ctx.send(ctx.author.mention, embed=embed)
-        if rank_value > rank_value2:
+        if rank_value < rank_value2:
             return True
         else:
             return False
