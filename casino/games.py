@@ -701,7 +701,7 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         print(values)
         card_values = [card_order_dict[i] for i in values]
-        print(card_values)
+        print(sorted(card_values))
         if card_values[0] == card_values[1] == card_values[2]:
             return True
         return False
