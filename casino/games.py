@@ -542,7 +542,7 @@ class Pikapokeri:
 
             ph2 = deck.deal(num=1)
 
-            if self.check_win(ph, ph2, ctx):
+            if await self.check_win(ph, ph2, ctx):
                 win = True
                 bet *=2
             else:
