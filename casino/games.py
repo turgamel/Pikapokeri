@@ -749,9 +749,9 @@ class Pikapokeri:
             "King": 13,
             "Ace": 14,
         }
-        if self.check_one_pairs(hand):
+        if self.check_one_pairs(self, hand):
             return False
-        elif self.check_3_kind(hand):
+        elif self.check_3_kind(self,hand):
             return False
         values = [i[1] for i in hand]
         rank_set = [card_order_dict[i] for i in values]
