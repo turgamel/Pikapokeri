@@ -552,7 +552,7 @@ class Pikapokeri:
                 ph2 = v2
             elif resp.content.lower() == _("3"):
                 ph2 = v3
-            elif resp.content.lower() == _("3"):
+            elif resp.content.lower() == _("4"):
                 ph2 = v4
             
 
