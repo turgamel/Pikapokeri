@@ -512,7 +512,7 @@ class Pikapokeri:
 
     async def tuplaa(self, ctx, bet, msg,win):
         count = 0
-
+    
         while bet > 0:
             count += 1
             deck.shuffle()
@@ -797,11 +797,11 @@ class Pikapokeri:
     def pp_embed(ctx, ph, amount, win, msg):
         embed = discord.Embed(colour=0xFF0000)
         embed.add_field(
-            name=_("{}n käsi").format(ctx.author.name),
+            name=_("{}'s Hand").format(ctx.author.name),
             value="{}".format(", ".join(deck.fmt_hand(ph))),
         )
         if win == False:
-            embed.add_field(name=_("\nKävi Köyhää"), value=("Unluck"), inline=False)
+            embed.add_field(name=_("\nKävi"), value=("köyhää :("), inline=False)
         else:
             embed.add_field(
                 name=_("\nTulos {}").format(msg),
