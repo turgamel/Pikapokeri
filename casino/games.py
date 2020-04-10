@@ -756,7 +756,7 @@ class Pikapokeri:
             return False
         elif self.check_3_kind(hand):
             return False
-        return rank_range == len(hand) and len(rank_set) == len(hand):
+        return rank_range == len(hand) and len(rank_set) == len(hand)
 
     @staticmethod
     def check_two_pairs(self, hand):
