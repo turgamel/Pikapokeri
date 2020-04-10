@@ -819,7 +819,7 @@ class Pikapokeri:
             value="{}".format(", ".join(deck.fmt_hand(ph))),
         )
         if win == False:
-            embed.add_field(name=_("\nKävi"), value=("köyhää :("), inline=False)
+            embed.add_field(name=_("\nTulos"), value=("Kävi köyhää :("), inline=False)
         else:
             embed.add_field(
                 name=_("\nTulos {}").format(msg),
