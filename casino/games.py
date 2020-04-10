@@ -540,8 +540,21 @@ class Pikapokeri:
                 resp = await ctx.bot.wait_for("message", check=pred, timeout=35.0)
             except asyncio.TimeoutError:
                 break
+            
+            v1 = deck.deal(num=1)
+            v2 = deck.deal(num=1)
+            v3 = deck.deal(num=1)
+            v4 = deck.deal(num=1)
 
-            ph2 = deck.deal(num=1)
+            if resp.content.lower() == _("1"):
+                ph2 = v1
+            elif resp.content.lower() == _("2"):
+                ph2 = v2
+            elif resp.content.lower() == _("3"):
+                ph2 = v3
+            elif resp.content.lower() == _("3"):
+                ph2 = v4
+            
 
             if await self.check_win(ph, ph2, ctx):
                 win = True
@@ -802,7 +815,7 @@ class Pikapokeri:
     def pp_embed(ctx, ph, amount, win, msg):
         embed = discord.Embed(colour=0xFF0000)
         embed.add_field(
-            name=_("{}'s Hand").format(ctx.author.name),
+            name=_("{}n käsi").format(ctx.author.name),
             value="{}".format(", ".join(deck.fmt_hand(ph))),
         )
         if win == False:
