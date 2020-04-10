@@ -749,13 +749,13 @@ class Pikapokeri:
             "King": 13,
             "Ace": 14,
         }
-        values = [i[1] for i in hand]
-        rank_set = [card_order_dict[i] for i in values]
-        rank_range = max(rank_set) - min(rank_set) + 1
         if self.check_one_pairs(hand):
             return False
         elif self.check_3_kind(hand):
             return False
+        values = [i[1] for i in hand]
+        rank_set = [card_order_dict[i] for i in values]
+        rank_range = max(rank_set) - min(rank_set) + 1
         return rank_range == len(hand) and len(rank_set) == len(hand)
 
     @staticmethod
