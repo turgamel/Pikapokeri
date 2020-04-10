@@ -624,7 +624,8 @@ class Pikapokeri:
 
     @staticmethod
     def check_flush(self, hand):
-        suits = sorted([i[0] for i in hand])
+        suits = [i[0] for i in hand]
+        suits = sorted(suits)
         if suits[0] == suits[1] == suits[2] == suits[3] == suits[4]:
             return True
         return False
@@ -751,7 +752,11 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         rank_set = [card_order_dict[i] for i in values]
         rank_range = max(rank_set) - min(rank_set) + 1
-        return rank_range == len(hand) and len(rank_set) == len(hand) and not self.check_3_kind(hand) and not self.check_one_pairs(hand)
+        if self.check_one_pairs(hand):
+            return False
+        elif self.check_3_kind(hand):
+            return False
+        return rank_range == len(hand) and len(rank_set) == len(hand):
 
     @staticmethod
     def check_two_pairs(self, hand):
