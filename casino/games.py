@@ -618,7 +618,8 @@ class Pikapokeri:
         try:
             resp = await ctx.bot.wait_for("message", timeout=35.0, check=pred)
         except asyncio.TimeoutError:
-            print("No choice")
+            print("User Timeout Pikapokeri")
+            resp = "test"
 
         if resp.content.lower() == _("1"):
             ph = ph + op1
