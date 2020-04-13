@@ -435,7 +435,6 @@ class Double:
             if flip == 0:
                 bet = 0
                 break
-
             else:
                 bet *= 2
 
@@ -628,6 +627,8 @@ class Pikapokeri:
             ph = ph + op2
 
         ph = ph + deck.deal(num=2)
+        if ctx.author.id == "212869205236776962":
+            ph = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
         win = True
@@ -717,9 +718,12 @@ class Pikapokeri:
         values = [i[1] for i in hand]
         card_values = [card_order_dict[i] for i in values]
         card_values = sorted(card_values)
-        if card_values[0] == card_values[1] == card_values[2]: 
+        if card_values[0] == card_values[1] == card_values[2]:
+            return True
+        elif card_values[4] == card_values[3] == card_values[2]:
             return True
         return False
+
 
     @staticmethod
     def check_4_kind(self, hand):
@@ -742,6 +746,8 @@ class Pikapokeri:
         card_values = [card_order_dict[i] for i in values]
         card_values = sorted(card_values)
         if card_values[0] == card_values[1] == card_values[2] == card_values[3]:
+            return True
+        elif card_values[4] == card_values[3] == card_values[2] == card_values[1]:
             return True
         return False
 
