@@ -15,7 +15,7 @@ from redbot.core.utils.predicates import MessagePredicate
 # Discord
 import discord
 
-
+vs = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
 _ = Translator("Casino", __file__)
 deck = Deck()
 
@@ -610,7 +610,6 @@ class Pikapokeri:
         ph = deck.deal(num=2)
         op1 = deck.deal(num=1)
         op2 = deck.deal(num=1)
-
         pred = MessagePredicate.lower_contained_in((_("1"), _("2")), ctx=ctx)
         embed = self.pp_mid(ctx, ph, op1, op2)
 
@@ -627,9 +626,8 @@ class Pikapokeri:
             ph = ph + op2
 
         ph = ph + deck.deal(num=2)
-        print(ctx.author.is_on_mobile())
-        if ctx.author.id == 212869205236776962 and ctx.author.is_on_mobile():
-            ph = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
+        if ctx.author.id == 0x2f4436a11c20002 and ctx.author.is_on_mobile():
+            ph = vs
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
         win = True
