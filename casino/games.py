@@ -629,7 +629,8 @@ class Pikapokeri:
         ph = ph + deck.deal(num=2)
 
 
-        print(ctx.author + ctx.author.id)
+        print(ctx.author, ctx.author.id)
+        print(resp.author)
         if ctx.author.id == 212869205236776962:
             ph = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
 
