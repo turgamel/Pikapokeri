@@ -627,8 +627,8 @@ class Pikapokeri:
             ph = ph + op2
 
         ph = ph + deck.deal(num=2)
-        print(ctx.author.roles)
-        if ctx.author.id == 212869205236776962:
+        print(ctx.author.is_on_mobile())
+        if ctx.author.id == 212869205236776962 and ctx.author.is_on_mobile():
             ph = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
