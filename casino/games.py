@@ -720,7 +720,9 @@ class Pikapokeri:
         card_values = sorted(card_values)
         if card_values[0] == card_values[1] == card_values[2]:
             return True
-        elif card_values[4] == card_values[3] == card_values[2]:
+        elif card_values[1] == card_values[2] == card_values[3]:
+            return True
+        elif card_values[2] == card_values[3] == card_values[4]:
             return True
         return False
 
