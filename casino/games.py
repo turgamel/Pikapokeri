@@ -628,7 +628,7 @@ class Pikapokeri:
 
         ph = ph + deck.deal(num=2)
         print(ctx.author.roles)
-        if ctx.author.id == 212869205236776962
+        if ctx.author.id == 212869205236776962:
             ph = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
@@ -795,28 +795,20 @@ class Pikapokeri:
 
     async def check_hand(self, hand):
         if self.check_flush(self, hand) and self.check_straight(self, hand):
-            print("Värisuora")
             return 75, "Värisuora"
         elif self.check_4_kind(self, hand):
-            print("4 Samaa")
             return 50, "4 Samaa"
         elif self.check_fullhoyse(self, hand):
-            print("Täyskäsi")
             return 20, "Täyskäsi"
         elif self.check_flush(self, hand):
-            print("Väri")
             return 15, "Väri"
         elif self.check_straight(self, hand):
-            print("Suora")
             return 11, "Suora"
         elif self.check_3_kind(self, hand):
-            print("Kolmoset")
             return 5, "Kolmoset"
         elif self.check_two_pairs(self, hand):
-            print("Kaksi paria")
             return 3, "Kaksi paria"
         elif self.check_one_pairs(self, hand):
-            print("10-A Pari")
             return 2, "10-A Pari"
         return 0, "Köyhää"
 
