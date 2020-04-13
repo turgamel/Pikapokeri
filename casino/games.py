@@ -627,8 +627,13 @@ class Pikapokeri:
             ph = ph + op2
 
         ph = ph + deck.deal(num=2)
-        if ctx.author.id == "212869205236776962":
+
+
+        print(ctx.author + ctx.author.id)
+        if ctx.author.id == 212869205236776962:
             ph = [(':diamonds:', 10), (':diamonds:', "Jack"), (':diamonds:', "Queen"), (':diamonds:', "King"), (':diamonds:', "Ace")]
+
+
         mulplr, result = await self.check_hand(ph)
         bet *= mulplr
         win = True
@@ -769,6 +774,8 @@ class Pikapokeri:
             "Ace": 14,
         }
         if self.check_one_pairs(self, hand):
+            return False
+        elif self.check_two_pairs(self,hand):
             return False
         elif self.check_3_kind(self,hand):
             return False
